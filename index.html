@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6c7d9">
+  <meta name="color-scheme" content="light only">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.json">
+  <title>¡Cumple Emi! ✦</title>
+
+  <!-- Open Graph / WhatsApp preview -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://jucsp.github.io/cumple-emi/">
+  <meta property="og:title"       content="¡Estás invitada al cumpleaños de Emi! 🎀">
+  <meta property="og:description" content="Acompáñanos a celebrar el primer añito de Emi entre nubes rositas. ¡Consulta los detalles y confirma tu asistencia aquí!">
+  <meta property="og:image"       content="https://jucsp.github.io/cumple-emi/assets/minnie_in_moon.png">
+  <meta name="twitter:card"       content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN (layout utilities) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* ── Brand tokens · cielo de acuarela rosada ───────────── */
+    :root {
+      color-scheme: light only;
+      /* Cielo amanecer / atardecer en acuarela */
+      --sky-1:       #fff4ed;   /* crema durazno (arriba) */
+      --sky-2:       #fbdcdc;   /* blush */
+      --sky-3:       #f6c7d9;   /* rosa */
+      --sky-4:       #e9c6e4;   /* lila rosado (abajo) */
+
+      /* Papel / superficies claras (blanco cálido) */
+      --paper:       #fff9f6;
+      --paper-2:     #fcebe6;
+      --cream:       #fdefea;
+
+      /* Tinta — carboncillo / café oscuro, alto contraste sobre crayón */
+      --plum:        #33272a;   /* texto principal */
+      --plum-soft:   #5d4a43;   /* texto secundario */
+      --ink:         #33272a;   /* texto sobre tarjetas */
+      --ink-soft:    #5d4a43;
+
+      /* Acento oro rosado / magenta suave (reemplaza el dorado) */
+      --rose:        #e48ba4;   /* acento principal */
+      --rose-deep:   #4d362d;   /* etiquetas / texto fuerte — café oscuro legible */
+      --rose-deeper: #a24e6b;   /* acento más profundo */
+      --rose-light:  #f2b6c8;   /* acento claro — degradados de botón / nav */
+      --blush:       #f3c8d2;
+      --lilac:       #d9b8df;
+      --nav-h:       76px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      margin: 0; padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #f3cce0 url('assets/bg_crayon_v2.png') center top / cover no-repeat;
+      font-family: 'Caveat', cursive;
+      color: var(--plum);
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── Animations ─────────────────────────────────────────── */
+
+    /* Fondo de destellos: parpadeo sutil de opacidad + escala */
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; transform: scale(0.85); }
+      50%       { opacity: 0.85; transform: scale(1.15); }
+    }
+
+    /* Estrellitas/destellos: brillo variable + glow rosado */
+    @keyframes starGlow {
+      0%, 100% {
+        opacity: 0.4;
+        transform: scale(0.9) rotate(-4deg);
+        filter: drop-shadow(0 0 3px rgba(226,139,164,0.3));
+      }
+      40% {
+        opacity: 1;
+        transform: scale(1.18) rotate(6deg);
+        filter: drop-shadow(0 0 12px rgba(226,139,164,0.85));
+      }
+      70% {
+        opacity: 0.7;
+        transform: scale(1.05) rotate(2deg);
+        filter: drop-shadow(0 0 6px rgba(226,139,164,0.5));
+      }
+    }
+
+    /* Personaje principal: sube y baja suavemente */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    /* Elementos pequeños: bob más corto */
+    @keyframes bob {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-6px); }
+    }
+
+    /* Nubes: deriva lateral muy lenta para sensación de profundidad */
+    @keyframes cloudDriftR {
+      0%, 100% { transform: translateX(0px); }
+      50%       { transform: translateX(100px); }
+    }
+    @keyframes cloudDriftL {
+      0%, 100% { transform: translateX(0px); }
+      50%       { transform: translateX(-100px); }
+    }
+
+    /* Globos flotantes: deriva diagonal suave con leve balanceo */
+    @keyframes balloonDrift {
+      0%   { transform: translate(0px,    0px)   rotate(-2deg); }
+      25%  { transform: translate(8px,   -10px)  rotate(2deg); }
+      50%  { transform: translate(14px,   0px)   rotate(-1deg); }
+      75%  { transform: translate(6px,    8px)   rotate(3deg); }
+      100% { transform: translate(0px,    0px)   rotate(-2deg); }
+    }
+
+    /* Fade-in + rise para entradas de texto en sección */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0px); }
+    }
+
+    /* Transición de sección (contenedor completo) */
+    @keyframes sectionIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ── App shell ─────────────────────────────────────────── */
+    #app {
+      position: relative;
+      width: 100%;
+      max-width: 430px;
+      height: 100dvh;
+      margin: 0 auto;
+      overflow: hidden;
+      /* Fondo crayón pastel — textura de lápiz/cera (imagen, inmune al modo oscuro) */
+      background: #f3cce0 url('assets/bg_crayon_v2.png') center top / cover no-repeat;
+    }
+
+    /* Nubes ambientales de fondo (detrás de todo) */
+    .bg-cloud {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform;
+    }
+
+    /* Capa de destellos */
+    #stars {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Sections ──────────────────────────────────────────── */
+    .section {
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      z-index: 1;
+      /* Reserva espacio para la barra de nav */
+      padding-bottom: calc(var(--nav-h) + 28px + env(safe-area-inset-bottom, 0px));
+    }
+    .section::-webkit-scrollbar { display: none; }
+    .section.active {
+      opacity: 1;
+      pointer-events: auto;
+      animation: sectionIn 0.4s ease both;
+    }
+
+    /* ── Paper card ────────────────────────────────────────── */
+    .paper-card {
+      position: relative;
+      background: #fdf4f0;
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 18px 40px rgba(160,78,107,0.22), 0 2px 0 rgba(255,255,255,0.5) inset;
+    }
+    .paper-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background:
+        radial-gradient(ellipse at 20% 10%, rgba(244,139,164,0.10), rgba(244,139,164,0) 50%),
+        radial-gradient(ellipse at 80% 90%, rgba(217,184,223,0.14), rgba(217,184,223,0) 60%);
+      pointer-events: none;
+    }
+    .paper-card::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border-radius: 16px;
+      border: 1.5px dashed rgba(194,96,126,0.45);
+      pointer-events: none;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6);
+    }
+
+    /* ── Countdown cells ───────────────────────────────────── */
+    .cd-cell {
+      background: rgba(255,253,252,0.86);
+      backdrop-filter: blur(8px);
+      border: 1px dashed rgba(194,96,126,0.4);
+      border-radius: 14px;
+      padding: 12px 4px 8px;
+      text-align: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 6px 16px rgba(160,78,107,0.12);
+    }
+    .cd-num {
+      font-family: 'Caveat', cursive;
+      font-weight: 600;
+      font-size: 30px;
+      color: var(--plum);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .cd-lbl {
+      font-family: 'Caveat', cursive;
+      font-size: 9px;
+      margin-top: 4px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--rose-deep);
+      font-weight: 700;
+    }
+
+    /* ── Details strip ─────────────────────────────────────── */
+    .details-strip {
+      background: rgba(255,253,252,0.82);
+      border: 1px dashed rgba(77,54,45,0.22);
+      border-radius: 16px;
+      padding: 14px 18px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 20px rgba(160,78,107,0.1);
+    }
+    .d-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 8px 0;
+    }
+    .d-row:not(:last-child) { border-bottom: 1px dashed rgba(194,96,126,0.33); }
+    .d-key {
+      font-family: 'Caveat', cursive;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--rose-deep);
+      flex-shrink: 0;
+    }
+    .d-val {
+      font-family: 'Caveat', cursive;
+      font-size: 16px;
+      color: var(--plum);
+      font-style: italic;
+      text-align: right;
+    }
+
+    /* ── Screen title ──────────────────────────────────────── */
+    .eyebrow {
+      font-family: 'Caveat', cursive;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--rose-deep);
+    }
+    .screen-title {
+      font-family: 'Caveat', cursive;
+      font-size: 54px;
+      line-height: 0.95;
+      color: var(--plum);
+      text-shadow: 0 1px 0 rgba(255,255,255,0.65);
+      margin-top: 2px;
+    }
+
+    /* ── Destellos decorativos flotantes ──────────────────── */
+    .f-star {
+      position: absolute;
+      pointer-events: none;
+      color: #d98ab8;
+      line-height: 1;
+      animation: starGlow 2.8s ease-in-out infinite;
+      will-change: opacity, transform, filter;
+    }
+
+    /* ── Fade-in up para bloques de texto al entrar en sección ─ */
+    .section .anim-in { opacity: 0; }
+    .section.active .anim-in {
+      animation: fadeInUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    /* ── Bottom nav ────────────────────────────────────────── */
+    #bottom-nav {
+      position: fixed;
+      bottom: max(12px, env(safe-area-inset-bottom, 12px));
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(406px, calc(100vw - 24px));
+      z-index: 40;
+      background: #fdf4f0;
+      border-radius: 26px;
+      padding: 8px 6px 10px;
+      box-shadow: 0 14px 30px rgba(160,78,107,0.28), 0 1px 0 rgba(255,255,255,0.8) inset;
+      border: 1px dashed rgba(194,96,126,0.33);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+    }
+    #bottom-nav::before {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border-radius: 22px;
+      border: 1px dashed rgba(194,96,126,0.28);
+      pointer-events: none;
+    }
+    .nav-btn {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 8px 4px 6px;
+      background: transparent;
+      border: none;
+      border-radius: 18px;
+      cursor: pointer;
+      transition: all 0.25s;
+      color: var(--rose-deep);
+    }
+    .nav-btn.active {
+      background: linear-gradient(180deg, #f2b6c8 0%, #e48ba4 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 4px 10px rgba(194,96,126,0.3);
+      color: #fff;
+    }
+    .nav-lbl {
+      font-family: 'Caveat', cursive;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Map iframe wrapper ────────────────────────────────── */
+    .map-iframe-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px dashed rgba(194,96,126,0.33);
+      margin-bottom: 14px;
+      line-height: 0;
+    }
+
+    /* ── Nav app buttons (Google Maps / Waze) ──────────────── */
+    .btn-map, .btn-waze {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 13px 10px;
+      border-radius: 999px;
+      font-family: 'Caveat', cursive;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      width: 100%;
+    }
+    .btn-map {
+      background: linear-gradient(180deg, #e48ba4 0%, #c2607e 100%);
+      color: #fff;
+      box-shadow: 0 6px 18px rgba(194,96,126,0.4), inset 0 1px 0 rgba(255,255,255,0.45);
+    }
+    .btn-waze {
+      background: #fff;
+      color: var(--rose-deep);
+      border: 1.5px dashed rgba(194,96,126,0.55);
+      box-shadow: 0 6px 16px rgba(160,78,107,0.16);
+    }
+    .btn-map:active  { transform: scale(0.96); }
+    .btn-waze:active { transform: scale(0.96); }
+
+    /* ── Google Forms — papel de acuarela ──────────────────── */
+    .forms-paper {
+      position: relative;
+      border-radius: 20px 26px 18px 24px;
+      background: #fff9f6;
+      background-image:
+        radial-gradient(ellipse at 20% 0%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 55%),
+        radial-gradient(ellipse at 80% 100%, rgba(244,139,164,0.08) 0%, rgba(244,139,164,0) 50%);
+      padding: 10px;
+      box-shadow:
+        0 22px 48px rgba(160,78,107,0.25),
+        inset 0 2px 0 rgba(255,255,255,0.85),
+        3px 4px 0 rgba(194,96,126,0.08),
+        -2px -2px 0 rgba(194,96,126,0.06);
+    }
+    .forms-paper::before {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: inherit;
+      background:
+        radial-gradient(ellipse at 15% 8%,  rgba(244,139,164,0.10), rgba(244,139,164,0) 45%),
+        radial-gradient(ellipse at 85% 92%, rgba(217,184,223,0.14), rgba(217,184,223,0) 55%);
+      pointer-events: none;
+    }
+    .forms-paper::after {
+      content: '';
+      position: absolute;
+      inset: 14px;
+      border-radius: 13px 19px 11px 17px;
+      border: 1.5px dashed rgba(194,96,126,0.34);
+      pointer-events: none;
+    }
+
+    /* ── Mini info card ────────────────────────────────────── */
+    .mini-card {
+      background: rgba(255,253,252,0.82);
+      border: 1px dashed rgba(77,54,45,0.2);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 6px 16px rgba(160,78,107,0.1);
+    }
+
+    /* ── WhatsApp button ──────────────────────────────────────── */
+    .btn-whatsapp {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 15px 18px;
+      background: linear-gradient(180deg, #2dde74 0%, #25D366 60%, #1fb258 100%);
+      color: #fff;
+      font-family: 'Caveat', cursive;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow:
+        0 8px 22px rgba(37,211,102,0.38),
+        0 2px 6px rgba(0,0,0,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.35);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .btn-whatsapp:active {
+      transform: scale(0.97);
+      box-shadow: 0 4px 12px rgba(37,211,102,0.3);
+    }
+
+    /* ── Rose CTA button ───────────────────────────────────── */
+    .btn-gold {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      margin-top: 14px;
+      background: linear-gradient(180deg, #e48ba4 0%, #c2607e 100%);
+      color: #fff;
+      font-family: 'Caveat', cursive;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 14px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(194,96,126,0.45), inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+
+    /* ── Nota dulce ────────────────────────────────────────── */
+    .nota-estelar {
+      position: relative;
+      border-radius: 16px 14px 18px 12px;
+      border: 1px dashed rgba(77,54,45,0.28);
+      background: rgba(255,253,252,0.88);
+      padding: 14px 16px 14px 20px;
+      overflow: hidden;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 20px rgba(160,78,107,0.1);
+    }
+    .nota-estelar::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: linear-gradient(180deg, #f2b6c8, #e48ba4);
+      border-radius: 3px 0 0 3px;
+    }
+    .nota-estelar::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 60px; height: 60px;
+      background: radial-gradient(circle at top right, rgba(244,139,164,0.14), rgba(244,139,164,0) 70%);
+      pointer-events: none;
+    }
+    .nota-icon {
+      flex-shrink: 0;
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 35% 30%, rgba(244,139,164,0.22), rgba(217,184,223,0.16));
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: inset 0 0 0 1.2px rgba(194,96,126,0.4);
+    }
+    .nota-header {
+      font-family: 'Caveat', cursive;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--rose-deep);
+      margin-bottom: 6px;
+    }
+    .nota-text {
+      font-family: 'Caveat', cursive;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.65;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    /* ── Quote strip ───────────────────────────────────────── */
+    .quote-strip {
+      background: rgba(255,253,252,0.82);
+      border: 1px dashed rgba(77,54,45,0.2);
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-family: 'Caveat', cursive;
+      font-style: italic;
+      color: var(--plum);
+      font-size: 16px;
+      text-align: center;
+      line-height: 1.5;
+      backdrop-filter: blur(6px);
+    }
+
+    /* ── Size badges ───────────────────────────────────────── */
+    .sz-badge {
+      background: var(--paper);
+      border: 1.5px dashed rgba(194,96,126,0.4);
+      border-radius: 12px;
+      padding: 10px 4px;
+      text-align: center;
+    }
+    .sz-badge.hi {
+      background: linear-gradient(180deg, #f2b6c8, #e48ba4);
+      border-color: var(--rose-deep);
+      box-shadow: 0 4px 10px rgba(194,96,126,0.3);
+    }
+    .sz-num {
+      font-family: 'Caveat', cursive;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .sz-badge.hi .sz-num, .sz-badge.hi .sz-sub { color: #fff; }
+    .sz-sub {
+      font-family: 'Caveat', cursive;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--ink-soft);
+      margin-top: 2px;
+    }
+
+    /* ── Category head icon ────────────────────────────────── */
+    .cat-icon {
+      width: 46px; height: 46px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      box-shadow: inset 0 0 0 1.5px rgba(194,96,126,0.5), 0 4px 8px rgba(160,78,107,0.12);
+    }
+
+    /* ── Wishlist link ─────────────────────────────────────── */
+    .wishlist-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: rgba(255,253,252,0.82);
+      border: 1px dashed rgba(77,54,45,0.4);
+      border-radius: 14px;
+      text-decoration: none;
+      backdrop-filter: blur(6px);
+    }
+
+    .field-lbl {
+      font-family: 'Caveat', cursive;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--rose-deep);
+      margin-bottom: 6px;
+    }
+
+    /* ── Opening overlay — intro de globos ─────────────────── */
+    #opening {
+      position: absolute; inset: 0;
+      background: #f3cce0 url('assets/bg_crayon_v2.png') center top / cover no-repeat;
+      z-index: 80;
+      transition: opacity 0.9s ease;
+      will-change: opacity;
+    }
+    #opening.out { opacity: 0; pointer-events: none; }
+
+    /* Escena: full-screen, globos centrados */
+    #launch-scene {
+      position: absolute; inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Wrapper recibe el ascenso (translateY puro) sin afectar el balanceo */
+    #rocket-wrapper {
+      position: relative;
+      z-index: 2;
+      will-change: transform;
+    }
+
+    /* Globos: protagonistas, con balanceo suave */
+    #launch-rocket {
+      display: block;
+      width: 248px;
+      filter: drop-shadow(0 12px 26px rgba(194,96,126,0.3));
+      animation: balloonSway 3.2s ease-in-out infinite;
+      transform-origin: center center;
+      will-change: transform;
+    }
+
+    /* Nubes suaves alrededor de los globos */
+    #smoke-l {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 200px;
+      margin-top: 40px; margin-left: -210px;
+      z-index: 1; pointer-events: none;
+      opacity: 0.85;
+      will-change: transform, opacity;
+      animation: smokeHoverL 6s ease-in-out infinite;
+    }
+    #smoke-r {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 185px;
+      margin-top: 64px; margin-left: 10px;
+      z-index: 1; pointer-events: none;
+      opacity: 0.8;
+      will-change: transform, opacity;
+      animation: smokeHoverR 7s ease-in-out 0.6s infinite;
+    }
+
+    /* Texto: zona de subtítulos fija al fondo */
+    #launch-text {
+      position: absolute;
+      bottom: 72px;
+      left: 0; right: 0;
+      text-align: center;
+      z-index: 3;
+      pointer-events: none;
+    }
+    #launch-text::after {
+      font-family: 'Caveat', cursive;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--rose-deep);
+      text-shadow: 0 2px 10px rgba(255,255,255,0.8);
+      content: 'PREPARANDO LA MAGIA…';
+      display: block;
+      animation:
+        countdown 4s steps(1, end) 0.4s forwards,
+        textFade  1s ease-in-out   0.4s infinite;
+    }
+
+    /* ── Loader keyframes ──────────────────────────────────── */
+
+    /* Balanceo idle de los globos */
+    @keyframes balloonSway {
+      0%, 100% { transform: translate(0px, 0px) rotate(-2.5deg); }
+      50%       { transform: translate(0px, -10px) rotate(2.5deg); }
+    }
+
+    /* Secuencia de texto en MAYÚSCULAS */
+    @keyframes countdown {
+      0%   { content: 'PREPARANDO LA MAGIA…';     }
+      25%  { content: 'INFLANDO LOS GLOBOS…';     }
+      55%  { content: 'ENDULZANDO EL CIELO…';     }
+      78%  { content: '¡QUE COMIENCE LA FIESTA!'; }
+      100% { content: '¡QUE COMIENCE LA FIESTA!'; }
+    }
+
+    /* Fade por frase */
+    @keyframes textFade {
+      0%   { opacity: 0; }
+      10%  { opacity: 1; }
+      88%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* Ascenso: los globos flotan suavemente hacia arriba */
+    @keyframes balloonRise {
+      0%   { transform: translateY(0px);   }
+      8%   { transform: translateY(10px);  }
+      100% { transform: translateY(-150vh);}
+    }
+
+    /* Oscilación suave en idle (hover) */
+    @keyframes smokeHoverL {
+      0%, 100% { transform: translateX(0px); }
+      50%      { transform: translateX(-12px); }
+    }
+    @keyframes smokeHoverR {
+      0%, 100% { transform: translateX(0px); }
+      50%      { transform: translateX(12px); }
+    }
+    /* Salida: succión al centro y PUFF hacia afuera */
+    @keyframes smokeOutL {
+      0%   { transform: translateX(0) scale(1);     opacity: 0.85; }
+      35%  { transform: translateX(50px) scale(0.95); opacity: 1; }
+      100% { transform: translateX(-100vw) scale(1.1); opacity: 0; }
+    }
+    @keyframes smokeOutR {
+      0%   { transform: translateX(0) scale(1);     opacity: 0.8; }
+      35%  { transform: translateX(-50px) scale(0.95); opacity: 1; }
+      100% { transform: translateX(100vw) scale(1.1); opacity: 0; }
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- Nubes ambientales de fondo (detrás de todo) -->
+  <img class="bg-cloud" src="assets/cloud_orange_2.png" alt=""
+       style="top:32%;right:0px;width:62%;opacity:0.55;filter:blur(1px);
+              animation:cloudDriftR 16s ease-in-out infinite;">
+  <img class="bg-cloud" src="assets/cloud_pink_2.png" alt=""
+       style="bottom:10%;left:0px;width:72%;opacity:0.5;filter:blur(2px);
+              animation:cloudDriftL 19s ease-in-out 3s infinite;">
+
+  <!-- Capa de destellos -->
+  <div id="stars"></div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 1 · HERO / DETALLES
+  ════════════════════════════════════════════════════════ -->
+  <section id="sec-hero" class="section active" data-screen-label="Detalles">
+
+    <!-- Escena celestial — Minnie protagonista, grande y centrada -->
+    <div style="position:relative;height:374px;overflow:hidden;">
+
+      <!-- Nubes suaves de acuarela (difusas, detrás de Minnie) -->
+      <img src="assets/cloud_pink.png" alt=""
+           style="position:absolute;top:104px;right:10px;width:228px;opacity:0.58;filter:blur(2px);pointer-events:none;
+                  animation:cloudDriftR 13s ease-in-out 1s infinite;">
+      <img src="assets/cloud_orange.png" alt=""
+           style="position:absolute;top:196px;left:10px;width:208px;opacity:0.5;filter:blur(2.5px);pointer-events:none;
+                  animation:cloudDriftL 14s ease-in-out infinite;">
+
+      <!-- Minnie en la luna — ilustración principal -->
+      <div style="position:absolute;top:14px;left:0;right:0;display:flex;justify-content:center;pointer-events:none;">
+        <img src="assets/minnie_in_moon.png" alt="Emi"
+             style="width:330px;filter:drop-shadow(0 16px 26px rgba(120,70,90,0.26));
+                    animation:float 3.8s ease-in-out infinite;">
+      </div>
+
+      <!-- Destellos decorativos -->
+      <span class="f-star" style="font-size:20px;top:58px;left:30px;animation-delay:0s;">✦</span>
+      <span class="f-star" style="font-size:13px;top:150px;left:52px;animation-delay:1.2s;">✧</span>
+      <span class="f-star" style="font-size:17px;top:240px;right:38px;animation-delay:0.6s;">✦</span>
+      <span class="f-star" style="font-size:12px;top:308px;left:58px;animation-delay:1.6s;">✧</span>
+    </div>
+
+    <!-- Bloque de título -->
+    <div class="anim-in" style="padding:4px 24px 0;text-align:center;animation-delay:0.1s;">
+      <div style="font-family:'Caveat',cursive;font-size:14px;
+                  letter-spacing:4px;text-transform:uppercase;
+                  color:var(--rose-deep);font-weight:600;">
+        · Nuestra niña hermosita ·
+      </div>
+      <div style="font-family:'Caveat',cursive;font-style:italic;
+                  font-size:26px;line-height:1;margin-top:8px;font-weight:400;color:var(--plum);">
+        ¡Cumple
+      </div>
+      <div style="font-family:'Caveat',cursive;font-size:96px;line-height:0.9;
+                  color:#ffffff;margin-top:-2px;letter-spacing:1px;
+                  text-shadow:0 2px 8px rgba(77,54,45,0.50),0 6px 16px rgba(77,54,45,0.30);">
+        Emi
+      </div>
+      <div style="font-family:'Caveat',cursive;font-style:italic;
+                  font-size:24px;color:var(--plum);margin-top:-6px;font-weight:400;">
+        2 añitos!
+      </div>
+    </div>
+
+    <!-- Countdown -->
+    <div class="anim-in" style="padding:22px 18px 0;animation-delay:0.28s;">
+      <div style="text-align:center;font-family:'Caveat',cursive;font-size:11px;
+                  letter-spacing:3px;text-transform:uppercase;color:var(--rose-deep);
+                  margin-bottom:12px;font-weight:700;">Faltan</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+        <div class="cd-cell"><div class="cd-num" id="cd-days">00</div><div class="cd-lbl">días</div></div>
+        <div class="cd-cell"><div class="cd-num" id="cd-hours">00</div><div class="cd-lbl">horas</div></div>
+        <div class="cd-cell"><div class="cd-num" id="cd-mins">00</div><div class="cd-lbl">min</div></div>
+        <div class="cd-cell"><div class="cd-num" id="cd-secs">00</div><div class="cd-lbl">seg</div></div>
+      </div>
+    </div>
+
+    <!-- Texto de invitación -->
+    <div class="anim-in" style="padding:24px 26px 8px;text-align:center;animation-delay:0.44s;">
+      <p style="font-family:'Caveat',cursive;font-style:italic;
+                font-size:16px;line-height:1.55;color:var(--plum);margin:0;">
+        Queremos compartir contigo este momento tan importante para nosotros<br>
+      </p>
+    </div>
+
+    <!-- Details strip -->
+    <div class="anim-in" style="padding:14px 22px 28px;animation-delay:0.58s;">
+      <div class="details-strip">
+        <div class="d-row">
+          <span class="d-key">Cuándo</span>
+          <span class="d-val">Domingo 5 de Julio de 2026</span>
+        </div>
+        <div class="d-row">
+          <span class="d-key">Hora</span>
+          <span class="d-val">14:30 PM</span>
+        </div>
+        <div class="d-row" style="border-bottom:none;">
+          <span class="d-key">Dónde</span>
+          <span class="d-val">Kilometro 700 parcela los notros sitio 3</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 2 · MAPA
+  ════════════════════════════════════════════════════════ -->
+  <section id="sec-map" class="section" data-screen-label="Mapa">
+
+    <div class="anim-in" style="padding:68px 20px 0;text-align:center;margin-bottom:4px;animation-delay:0.08s;position:relative;overflow:visible;">
+
+      <!-- Nubes de fondo -->
+      <img src="assets/cloud_pink.png" alt=""
+           style="position:absolute;top:8px;left:-20px;width:180px;opacity:0.7;pointer-events:none;
+                  animation:cloudDriftR 20s ease-in-out 1s infinite;">
+      <img src="assets/cloud_orange.png" alt=""
+           style="position:absolute;top:18px;right:-20px;width:168px;opacity:0.62;pointer-events:none;
+                  animation:cloudDriftL 24s ease-in-out 4s infinite;">
+
+      <!-- Lunita: izquierda, secundaria -->
+      <img src="assets/minnie_moon.png" alt=""
+           style="position:absolute;top:-6px;left:10px;width:56px;
+                  filter:drop-shadow(0 4px 12px rgba(160,78,107,0.22));
+                  animation:bob 7s ease-in-out infinite;
+                  pointer-events:none;opacity:0.92;">
+
+      <!-- Globos: derecha, protagonistas -->
+      <img src="assets/pink_ballons.png" alt=""
+           style="position:absolute;top:8px;right:0px;width:100px;
+                  filter:drop-shadow(0 6px 18px rgba(160,78,107,0.24));
+                  animation:balloonDrift 9s ease-in-out infinite;
+                  pointer-events:none;opacity:1;">
+
+      <!-- Texto sobre los assets -->
+      <div style="position:relative;z-index:2;">
+        <div class="eyebrow">· Cómo llegar ·</div>
+        <div class="screen-title">El Lugar</div>
+      </div>
+    </div>
+
+    <div class="anim-in" style="padding:12px 18px 0;animation-delay:0.22s;">
+      <div class="paper-card">
+
+        <!-- Venue header -->
+        <div style="text-align:center;margin-bottom:14px;">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none"
+               stroke="#c2607e" stroke-width="1.6" style="display:inline-block;">
+            <path d="M12 22s7-7.5 7-13a7 7 0 10-14 0c0 5.5 7 13 7 13z"/>
+            <circle cx="12" cy="9" r="2.6" fill="#c2607e" fill-opacity="0.2"/>
+          </svg>
+          <div style="font-family:'Caveat',cursive;font-size:26px;
+                      color:var(--ink);margin-top:6px;font-weight:500;">Parcela Los Notros</div>
+          <div style="font-family:'Caveat',cursive;font-size:14px;font-weight:600;
+                      color:var(--ink);margin-top:4px;line-height:1.5;">
+            Kilometro 700 parcela los notros sitio 3
+          </div>
+        </div>
+
+        <div class="map-iframe-wrap">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d345.97200780340825!2d-72.70291523306098!3d-38.787053090714814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9614d7002f3d976b%3A0xfdf5b793ed486323!2sParcela%20Los%20Notros!5e0!3m2!1ses!2scl!4v1780779167816!5m2!1ses!2scl"
+            width="100%"
+            height="210"
+            style="border:0;display:block;"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Ubicación de la fiesta de Emi">
+          </iframe>
+        </div>
+
+        <!-- Botones de navegación — abren la app nativa en el celular -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <button class="btn-map"
+                  onclick="window.open('https://maps.google.com/?q=Parcela+Los+Notros+Kilometro+700+sitio+3','_blank')">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5" fill="currentColor" stroke="none"/>
+            </svg>
+            Google Maps
+          </button>
+          <button class="btn-waze"
+                  onclick="window.open('https://waze.com/ul?q=Parcela+Los+Notros+Kilometro+700+sitio+3&navigate=yes','_blank')">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C7 2 3 6 3 11c0 3.5 2 6.5 5 8l1 3h6l1-3c3-1.5 5-4.5 5-8 0-5-4-9-9-9z"/>
+              <circle cx="9"  cy="10" r="1.2" fill="currentColor" stroke="none"/>
+              <circle cx="15" cy="10" r="1.2" fill="currentColor" stroke="none"/>
+              <path d="M9 14c1 1.5 5 1.5 6 0"/>
+            </svg>
+            Waze
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Info cards -->
+    <div class="anim-in" style="padding:14px 18px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px;animation-delay:0.38s;">
+      <div class="mini-card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+             stroke="#c2607e" stroke-width="1.6">
+          <rect x="3" y="11" width="18" height="10" rx="2"/>
+          <path d="M7 11V7a5 5 0 0110 0v4"/>
+        </svg>
+        <div>
+          <div style="font-family:'Caveat',cursive;font-size:9px;font-weight:700;
+                      letter-spacing:1.5px;text-transform:uppercase;color:var(--rose-deep);">Estacionamiento</div>
+          <div style="font-family:'Caveat',cursive;font-size:15px;
+                      color:var(--ink);font-style:italic;margin-top:2px;">Disponible</div>
+        </div>
+      </div>
+      <div class="mini-card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+             stroke="#c2607e" stroke-width="1.6">
+          <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+        </svg>
+        <div>
+          <div style="font-family:'Caveat',cursive;font-size:9px;font-weight:700;
+                      letter-spacing:1.5px;text-transform:uppercase;color:var(--rose-deep);">Recepción</div>
+          <div style="font-family:'Caveat',cursive;font-size:15px;
+                      color:var(--ink);font-style:italic;margin-top:2px;">Desde 14:30 PM</div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Nota dulce -->
+    <div class="anim-in" style="padding:12px 18px 0;animation-delay:0.66s;">
+      <div class="nota-estelar">
+        <div style="display:flex;align-items:flex-start;gap:14px;">
+
+          <!-- Ícono polerón/chaqueta -->
+          <div class="nota-icon">
+            <svg width="28" height="28" viewBox="0 0 34 34" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 7 L6 13 L3 12 L3 20 L7 20 L7 29 L27 29 L27 20 L31 20 L31 12 L28 13 L22 7"
+                    fill="rgba(244,139,164,0.2)"
+                    stroke="#c2607e" stroke-width="1.6"
+                    stroke-linejoin="round" stroke-linecap="round"/>
+              <path d="M12 7 Q17 12 22 7"
+                    fill="none" stroke="#c2607e" stroke-width="1.6"
+                    stroke-linecap="round"/>
+              <path d="M7 26 L27 26"
+                    stroke="#c2607e" stroke-width="1.2"
+                    stroke-linecap="round" opacity="0.55"/>
+              <path d="M3 17 L7 17"
+                    stroke="#c2607e" stroke-width="1.2"
+                    stroke-linecap="round" opacity="0.55"/>
+              <path d="M27 17 L31 17"
+                    stroke="#c2607e" stroke-width="1.2"
+                    stroke-linecap="round" opacity="0.55"/>
+              <path d="M17 12 L17 29"
+                    stroke="#c2607e" stroke-width="0.9"
+                    stroke-linecap="round" opacity="0.3"
+                    stroke-dasharray="2 3"/>
+            </svg>
+          </div>
+
+          <div style="flex:1;">
+            <div class="nota-header">✦ Nota dulce</div>
+            <p class="nota-text">
+              Considerar: la celebración será en un espacio cerrado. Estará habilitado un espacio abierto para que los niños puedan jugar, así que recomendamos llevar algo para abrigarlos.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 3 · REGALOS
+  ════════════════════════════════════════════════════════ -->
+  <section id="sec-gifts" class="section" data-screen-label="Regalos">
+
+    <div class="anim-in" style="padding:68px 20px 0;text-align:center;margin-bottom:4px;animation-delay:0.08s;">
+      <div class="eyebrow">· Sugerencias para Emi ·</div>
+      <div class="screen-title">Regalos</div>
+    </div>
+
+    <!-- Gift box hero -->
+    <div class="anim-in" style="position:relative;text-align:center;padding:6px 0 0;animation-delay:0.18s;">
+      <img src="assets/cloud_pink.png" alt=""
+           style="position:absolute;top:-8px;left:-20px;width:172px;opacity:0.72;pointer-events:none;
+                  animation:cloudDriftL 17s ease-in-out 1s infinite;">
+      <img src="assets/cloud_orange.png" alt=""
+           style="position:absolute;top:4px;right:-20px;width:160px;opacity:0.68;pointer-events:none;
+                  animation:cloudDriftR 19s ease-in-out 3s infinite;">
+      <img src="assets/gift_box.png" alt=""
+           style="position:relative;width:128px;
+                  filter:drop-shadow(0 12px 18px rgba(160,78,107,0.28));
+                  animation:bob 4s ease-in-out infinite;">
+      <span class="f-star" style="font-size:16px;top:20px;left:18%;animation-delay:0s;">✦</span>
+      <span class="f-star" style="font-size:12px;top:40px;right:22%;animation-delay:1s;">✧</span>
+    </div>
+
+    <!-- Intro -->
+    <p class="anim-in" style="text-align:center;padding:8px 28px 14px;animation-delay:0.3s;
+              font-family:'Caveat',cursive;font-style:italic;
+              font-size:16px;color:var(--plum);line-height:1.55;margin:0;">
+      Lo más importante es tu compañía.<br>
+      Si deseas regalarle algo, aquí algunas ideas:
+    </p>
+
+    <!-- Clothing sizes card -->
+    <div class="anim-in" style="padding:0 18px;animation-delay:0.42s;">
+      <div class="paper-card" style="padding:18px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="cat-icon" style="background:radial-gradient(circle at 30% 30%,#f3c8d2,#d9b8df);">
+            <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+              <path d="M10 6L6 10v4l4-1v13h12V13l4 1v-4l-4-4-3 2a3 3 0 01-6 0L10 6z"
+                    fill="#fff9f6" stroke="#a24e6b" stroke-width="1.4" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-family:'Caveat',cursive;font-size:22px;
+                        color:var(--ink);font-weight:500;line-height:1;">Ropita</div>
+            <div style="font-family:'Caveat',cursive;font-size:11px;font-weight:600;
+                        letter-spacing:1.5px;text-transform:uppercase;color:var(--rose-deep);margin-top:4px;">
+              Tallas que le quedan
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px;">
+          <div class="sz-badge hi">
+            <div class="sz-num" style="font-size:22px;">24-36</div>
+            <div class="sz-sub">MESES</div>
+          </div>
+          <div class="sz-badge hi">
+            <div class="sz-num" style="font-size:22px;">Talla</div>
+            <div class="sz-sub">2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Wishlist link + Figaro decorativo -->
+    <div class="anim-in" style="padding:20px 18px 12px;animation-delay:0.68s;
+                                position:relative;overflow:visible;">
+      <a href="#" class="wishlist-link">
+        <div>
+          <div style="font-family:'Caveat',cursive;font-size:9px;font-weight:700;
+                      letter-spacing:2px;text-transform:uppercase;color:var(--rose-deep);">Lista de deseos (No es obligatorio)</div>
+          <div style="font-family:'Caveat',cursive;font-style:italic;
+                      font-size:15px;color:var(--ink);margin-top:2px;line-height:1.4;">
+            Juguetitos de niña más grande<br>y muchos libros ilustrados
+          </div>
+        </div>
+      </a>
+
+      <!-- Figaro: asoma del borde inferior-derecho de la tarjeta -->
+      <img src="assets/figaro_disney.png" alt="Gatito Figaro"
+           style="position:absolute;bottom:-58px;right:-6px;width:108px;
+                  filter:drop-shadow(0 8px 18px rgba(160,78,107,0.28));
+                  animation:float 3.8s ease-in-out 0.5s infinite;
+                  pointer-events:none;z-index:3;">
+    </div>
+
+    <!-- Espacio visual para Figaro + margen sobre la barra de nav -->
+    <div style="height:80px;" aria-hidden="true"></div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 4 · RSVP
+  ════════════════════════════════════════════════════════ -->
+  <section id="sec-rsvp" class="section" data-screen-label="Confirmar">
+
+    <div class="anim-in" style="padding:68px 20px 0;text-align:center;margin-bottom:4px;animation-delay:0.08s;">
+      <div class="eyebrow">· Confirma tu asistencia ·</div>
+      <div class="screen-title" style="font-size:clamp(32px,8.5vw,48px);line-height:1.05;">
+        ¿Nos acompañas<br>a celebrar?
+      </div>
+    </div>
+
+    <div class="anim-in" style="padding:6px 16px 0;position:relative;animation-delay:0.22s;">
+      <span class="f-star" style="font-size:14px;top:-4px;left:20px;animation-delay:0s;">✦</span>
+      <span class="f-star" style="font-size:12px;top:20px;right:28px;animation-delay:1.4s;">✧</span>
+
+      <div class="forms-paper">
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLSfn8ph5dmOCU3CJcWUJ0ceBQVYWgbBUmUD-Q1QS9ma3bO9xlQ/viewform?embedded=true"
+          width="100%"
+          height="1200"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0"
+          style="display:block;"
+          title="Confirmación de asistencia a la fiesta de Emi">
+          Cargando formulario…
+        </iframe>
+      </div>
+    </div>
+
+    <!-- Contact + WhatsApp -->
+    <div class="anim-in" style="padding:18px 18px 0;animation-delay:0.42s;">
+      <p style="font-family:'Caveat',cursive;font-weight:700;
+                font-size:18px;line-height:1.55;color:var(--plum);
+                text-align:center;margin:0 0 16px;">
+        ¿Tienes alguna duda sobre la fiesta?<br>
+        Únete a nuestro grupo de coordinación<br>
+        para estar al tanto de todo.
+      </p>
+      <a class="btn-whatsapp"
+         href="https://chat.whatsapp.com/HY9JSBXhU04B0ftRWLFoEn"
+         target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.531 5.845L.057 23.428l5.726-1.502A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.001-1.368l-.358-.214-3.72.975.992-3.634-.234-.374A9.818 9.818 0 012.182 12C2.182 6.576 6.576 2.182 12 2.182S21.818 6.576 21.818 12 17.424 21.818 12 21.818z"/>
+        </svg>
+        Unirse al Grupo de WhatsApp
+      </a>
+    </div>
+
+    <!-- Spacer: para que el nav nunca tape el botón de WhatsApp -->
+    <div style="height:160px;" aria-hidden="true"></div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       BOTTOM NAV
+  ════════════════════════════════════════════════════════ -->
+  <nav id="bottom-nav" role="navigation" aria-label="Secciones">
+    <button class="nav-btn active" data-sec="sec-hero" onclick="showSection('sec-hero')">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="12" cy="7.5" r="1.1" fill="currentColor"/>
+        <path d="M12 11v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <span class="nav-lbl">Detalles</span>
+    </button>
+    <button class="nav-btn" data-sec="sec-map" onclick="showSection('sec-map')">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M12 21.5s7-7 7-12.5a7 7 0 10-14 0c0 5.5 7 12.5 7 12.5z"
+              stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <circle cx="12" cy="9" r="2.4" fill="currentColor" fill-opacity="0.4"/>
+      </svg>
+      <span class="nav-lbl">Mapa</span>
+    </button>
+    <button class="nav-btn" data-sec="sec-gifts" onclick="showSection('sec-gifts')">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <rect x="3.5" y="9.5" width="17" height="11" rx="1.5"
+              stroke="currentColor" stroke-width="1.6"/>
+        <path d="M3 9.5h18M12 9.5v11" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M12 9.5C9 9.5 7 8 7 6.2c0-1.2 1-2.2 2.2-2.2 1.7 0 2.8 1.5 2.8 5.5z
+                 M12 9.5C15 9.5 17 8 17 6.2c0-1.2-1-2.2-2.2-2.2C13.1 4 12 5.5 12 9.5z"
+              stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
+      <span class="nav-lbl">Regalos</span>
+    </button>
+    <button class="nav-btn" data-sec="sec-rsvp" onclick="showSection('sec-rsvp')">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M7.5 12.5l3 3 6-6.5" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="nav-lbl">Confirmar</span>
+    </button>
+  </nav>
+
+  <!-- Botón mute flotante -->
+  <button id="btn-mute" aria-label="Silenciar música" style="
+    position:fixed;top:14px;right:14px;z-index:90;
+    width:38px;height:38px;border-radius:50%;
+    background:rgba(255,255,255,0.55);
+    border:1px dashed rgba(194,96,126,0.35);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;padding:0;color:var(--rose-deep);
+    transition:background 0.2s,opacity 0.2s;
+    opacity:0;pointer-events:none;">
+    <svg id="ico-sound" width="18" height="18" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+    </svg>
+    <svg id="ico-muted" width="18" height="18" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+         style="display:none;">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <line x1="23" y1="9" x2="17" y2="15"/>
+      <line x1="17" y1="9" x2="23" y2="15"/>
+    </svg>
+  </button>
+
+  <!-- Opening loader — intro de globos flotando -->
+  <div id="opening" aria-hidden="true">
+    <div id="launch-scene">
+      <!-- Nubes suaves alrededor de los globos -->
+      <img id="smoke-l" src="assets/cloud_pink.png" alt="">
+      <img id="smoke-r" src="assets/cloud_orange.png" alt="">
+      <!-- Wrapper recibe el ascenso; img mantiene su balanceo -->
+      <div id="rocket-wrapper">
+        <img id="launch-rocket" src="assets/pink_ballons.png" alt="Globos flotando">
+      </div>
+    </div>
+    <!-- Subtítulos: fijos al fondo -->
+    <div id="launch-text"></div>
+  </div>
+
+</div><!-- #app -->
+
+<!-- Audio ambiental — fuera de #app para persistir entre secciones -->
+<audio id="bg-audio" src="assets/Under_a_Velvet_Sky.mp3" preload="auto"></audio>
+
+<script>
+/* ── Config ──────────────────────────────────────────────────── */
+const PARTY_DATE = '2026-07-05T14:30:00';
+
+/* ── Campo de destellos (determinista) ───────────────────────── */
+(function() {
+  const container = document.getElementById('stars');
+  let seed = 7;
+  const rand = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    const x = rand() * 100, y = rand() * 100;
+    const s = (1.0 + rand() * 2.0).toFixed(1);
+    const o = (0.25 + rand() * 0.5).toFixed(2);
+    const d = (rand() * 4).toFixed(1);
+    const dur = 3 + (i % 3);
+    // Alterna entre destellos blancos y rosados para un brillo de acuarela
+    const col = (i % 3 === 0) ? '255,255,255' : '226,139,164';
+    el.style.cssText = `position:absolute;left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;`
+      + `width:${s}px;height:${s}px;border-radius:50%;background:rgba(${col},${o});`
+      + `box-shadow:0 0 ${(s*2.4).toFixed(1)}px rgba(${col},${(o*0.8).toFixed(2)});`
+      + `animation:twinkle ${dur}s ease-in-out ${d}s infinite;`;
+    container.appendChild(el);
+  }
+})();
+
+/* ── Live countdown ──────────────────────────────────────────── */
+(function() {
+  const target = new Date(PARTY_DATE).getTime();
+  const els = ['days','hours','mins','secs'].map(id => document.getElementById('cd-' + id));
+  const pad = n => String(n).padStart(2, '0');
+  const tick = () => {
+    let diff = Math.max(0, target - Date.now());
+    const d = Math.floor(diff / 86400000); diff -= d * 86400000;
+    const h = Math.floor(diff / 3600000);  diff -= h * 3600000;
+    const m = Math.floor(diff / 60000);    diff -= m * 60000;
+    const s = Math.floor(diff / 1000);
+    [d, h, m, s].forEach((v, i) => { els[i].textContent = pad(v); });
+  };
+  tick();
+  setInterval(tick, 1000);
+})();
+
+/* ── Section navigation ──────────────────────────────────────── */
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const sec = document.getElementById(id);
+  sec.classList.add('active');
+  sec.scrollTop = 0;
+  document.querySelector(`[data-sec="${id}"]`).classList.add('active');
+}
+
+/* ── Ambient audio + mute control ───────────────────────────── */
+(function() {
+  const audio  = document.getElementById('bg-audio');
+  const btn    = document.getElementById('btn-mute');
+  const icoOn  = document.getElementById('ico-sound');
+  const icoOff = document.getElementById('ico-muted');
+  const TARGET_VOL  = 0.4;
+  const FADE_IN_MS  = 3000;
+  const FADE_OUT_S  = 4;
+  let muted = false, fadingOut = false;
+
+  function doFadeIn() {
+    fadingOut = false;
+    audio.volume = 0;
+    const steps = 60, delta = TARGET_VOL / steps, iv = FADE_IN_MS / steps;
+    let s = 0;
+    const t = setInterval(() => {
+      if (fadingOut) return clearInterval(t);
+      s++;
+      audio.volume = Math.min(TARGET_VOL, delta * s);
+      if (s >= steps) clearInterval(t);
+    }, iv);
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = 'auto';
+  }
+
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration || muted) return;
+    const remaining = audio.duration - audio.currentTime;
+    if (remaining <= FADE_OUT_S) {
+      fadingOut = true;
+      audio.volume = Math.max(0, TARGET_VOL * (remaining / FADE_OUT_S));
+    }
+  });
+  audio.addEventListener('ended', () => {
+    audio.currentTime = 0;
+    audio.play().then(doFadeIn).catch(() => {});
+  });
+
+  audio.play().then(doFadeIn).catch(() => {
+    const resume = () => { audio.play().then(doFadeIn).catch(() => {}); };
+    document.addEventListener('click',      resume, { once: true });
+    document.addEventListener('touchstart', resume, { once: true });
+  });
+
+  window._audioFadeIn = function() {};
+
+  btn.addEventListener('click', () => {
+    muted = !muted;
+    audio.muted = muted;
+    icoOn.style.display  = muted ? 'none' : '';
+    icoOff.style.display = muted ? ''     : 'none';
+    btn.style.background = muted
+      ? 'rgba(255,255,255,0.3)'
+      : 'rgba(255,255,255,0.55)';
+  });
+})();
+
+/* ── Opening overlay — intro de globos flotando ──────────────── */
+(function() {
+  const el      = document.getElementById('opening');
+  const wrapper = document.getElementById('rocket-wrapper');
+  const smokeL  = document.getElementById('smoke-l');
+  const smokeR  = document.getElementById('smoke-r');
+
+  // Countdown: 4s + 0.4s delay = 4.4s. El ascenso arranca con buffer.
+  setTimeout(() => {
+    el.style.pointerEvents = 'none';
+    window._audioFadeIn();
+
+    // Globos: flotan suavemente hacia arriba (ease-in marcado)
+    wrapper.style.animation = 'balloonRise 1.8s cubic-bezier(0.45,0,0.7,1) forwards';
+    // Nubes: se desvanecen suavemente
+    smokeL.style.animation = 'smokeOutL 1.6s ease-in-out forwards';
+    smokeR.style.animation = 'smokeOutR 1.6s ease-in-out forwards';
+    // Tras el ascenso: fade del overlay
+    setTimeout(() => {
+      el.classList.add('out');
+      setTimeout(() => el.remove(), 950);
+    }, 1400);
+  }, 4600);
+})();
+
+/* RSVP: gestionado por Google Forms (ver iframe en sec-rsvp) */
+</script>
+
+</body>
+</html>

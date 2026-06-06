@@ -1,0 +1,17 @@
+{
+  "name": "¡Cumple Emi!",
+  "short_name": "Emi ✦",
+  "description": "Invitación de cumpleaños de Emi",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff4ed",
+  "theme_color": "#f6c7d9",
+  "icons": [
+    {
+      "src": "assets/gift_box.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}
